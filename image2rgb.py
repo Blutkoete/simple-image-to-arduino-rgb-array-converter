@@ -10,11 +10,17 @@ def get_16bit_color_from_rgb(red, green, blue):
     :param blue: 0..255
     :return:  A string with the 16bit value in hex format.
     """
-    red_16bit = (red//31 * 255) << 11
-    green_16bit = (green//63 * 255) << 5
-    blue_16bit = (blue//31 * 255)
+    red_16bit = int((red/255)*31) << 11
+    print('{} -> {} -> {}'.format(red, int((red/255)*31), red_16bit))
+    green_16bit = int((green/255)*63) << 5
+    print('{} -> {} -> {}'.format(green, int((green/255)*63), green_16bit))
+    blue_16bit = int((blue/255)*31)
+    print('{} -> {} -> {}'.format(blue, int((green/255)*31), blue_16bit))
     rgb_16bit = red_16bit | green_16bit | blue_16bit
+    if rgb_16bit > 65535:
+        raise RuntimeError('Value ({}) too large for 16bit.'.format(rgb_16bit))
     return '0x{0:04x}'.format(rgb_16bit)
+
 
 def image_to_rgb_array(input_path, output_path, variable_name='rgb_array'):
     """
