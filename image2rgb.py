@@ -32,9 +32,11 @@ def image_to_rgb_array(input_path, output_path, variable_name='rgb_array'):
     """
     image = QImage(input_path)
     with open(output_path, 'w') as file_:
-        # Write the first line of the file, declaring an array with the size of the image's pixel count and the given
-        # name.
-        file_.write('const uint16_t {}[{}] = {}\n\t'.format(variable_name, image.width() * image.height(), '{'))
+        # Write the first lines of the file, declaring variables for size X/Y of the image and an array with the size
+        # of the image's pixel count and the given name.
+        file_.write('const uint16_t {}_width = {};\n'.format(variable_name, image.width()))
+        file_.write('const uint16_t {}_height = {};\n'.format(variable_name, image.height()))
+        file_.write('const uint16_t {}_data[{}] = {}\n\t'.format(variable_name, image.width() * image.height(), '{'))
         for y in range(0, image.width()):
             for x in range(0, image.height()):
                 pixel = image.pixel(x, y)
